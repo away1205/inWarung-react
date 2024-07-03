@@ -10,7 +10,7 @@ function useTambahBarang() {
     onSuccess: () => {
       toast.success('Barang baru telah ditambah');
       queryClient.invalidateQueries({
-        queryKey: ['product'],
+        queryKey: ['products'],
       });
     },
 

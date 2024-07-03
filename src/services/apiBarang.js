@@ -5,7 +5,7 @@ export async function getAllProducts() {
   try {
     const response = await fetch(baseUrl);
     const products = await response.json();
-    console.log(products);
+    return products;
   } catch (error) {
     console.error('Error fetching products:', error);
   }

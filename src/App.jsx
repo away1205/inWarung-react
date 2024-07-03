@@ -1,8 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import DaftarInventaris from './pages/DaftarInventaris';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import DaftarInventaris from './pages/DaftarInventaris';
 import { Toaster } from 'react-hot-toast';
+import Transaksi from './pages/Transaksi';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,6 +23,7 @@ function App() {
         <Routes>
           <Route path='/' element={<h1>HomePage</h1>} />
           <Route path='inventaris' element={<DaftarInventaris />} />
+          <Route path='transaksi' element={<Transaksi />} />
         </Routes>
       </BrowserRouter>
 
