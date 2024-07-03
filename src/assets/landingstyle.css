@@ -1,0 +1,378 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 54px;
+    background: linear-gradient(180deg, rgba(120, 166, 209, 0.20) 2.27%, rgba(255, 255, 255, 0.20) 29.1%);
+}
+
+
+.header{
+    width: 1441px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-left: 16px;
+    padding-right: 0px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 524px;
+    display: inline-flex;
+}
+
+.header img{
+    width: 500px;
+    height: 110px;
+}
+
+.header .nav{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.header .nav .masuk{
+    display: flex;
+    width: 118px;
+    height: 51px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.header .nav .masuk a{
+    text-decoration: none;
+    display: flex;
+    width: 76px;
+    height: 27px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.header .nav .daftar{
+    display: flex;
+    width: 118px;
+    height: 51px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    background: #2564AD;
+}
+
+.header .nav .daftar a{
+    text-decoration: none;
+    display: flex;
+    width: 76px;
+    height: 27px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+
+    color: #FFFDFD;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.content{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.content h2{
+    padding: 0 187px;
+    width: 1116px;
+    color: #003584;
+    text-align: center;
+    font-family: Syne;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.content p{
+    color: #003584;
+    text-align: center;
+    font-family: Syne;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.content .lanjut{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+}
+
+.content .lanjut .daftar{
+    display: flex;
+    width: 118px;
+    height: 51px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    background: #2564AD;
+}
+
+.content .lanjut .daftar a{
+    text-decoration: none;
+    display: flex;
+    width: 76px;
+    height: 27px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+
+    color: #FFFDFD;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.content .lanjut p{
+    color: #000;
+    text-align: center;
+    font-family: Syne;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.content .lanjut a{
+    text-decoration: none;
+    width: 90px;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.content2{
+    display: inline-flex;
+    padding: 0px 88px;
+    align-items: flex-start;
+}
+
+.content2 .selamat{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.content2 .selamat p{
+    color: #5D86A3;
+    text-align: center;
+    font-family: "Space Mono";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.content2 .selamat h2{
+    display: flex;
+    width: 598px;
+    height: 208px;
+    flex-direction: column;
+    justify-content: center;
+    color: #000;
+    font-family: Inter;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.content2 img{
+    width: 666px;
+    height: 443px;
+    background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+}
+
+.tentang{
+    display: inline-flex;
+    padding: 0px 160px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+}
+
+.tentang h2{
+    color: #5D86A3;
+    text-align: center;
+    font-family: "Space Mono";
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.tentang .deskripsi{
+    display: flex;
+    align-items: flex-start;
+    gap: 160px;
+}
+
+.tentang .deskripsi p{
+    display: flex;
+    width: 480px;
+    height: 105px;
+    flex-direction: column;
+    justify-content: center;
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.fitur{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 54px;
+    align-self: stretch;
+}
+
+.fitur .h2{
+    display: flex;
+    padding: 0px 300px;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+}
+
+.fitur h2{
+    color: #000;
+    font-family: "Space Mono";
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.fitur .isi{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 52px;
+    align-self: stretch;
+}
+
+.fitur .isi img{
+    width: 640px;
+    height: 760px;
+}
+
+.fitur .isi .deskripsi{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 31px;
+    width: 588px;
+}
+
+.fitur .isi .deskripsi p{
+    font-weight:bold
+}
+
+.footer{
+    display: flex;
+    padding: 52px 218px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 59px;
+    flex: 1 0 0;
+    align-self: stretch;
+    background: #81ACD4;
+}
+
+.footer .content{
+    display: flex;
+    align-items: flex-start;
+    gap: 318px;
+}
+
+.footer .content .list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.footer .content .list p{
+    width: 96px;
+    color: #FFFDFD;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}    
+
+.footer .copyright{
+    display: flex;
+    align-items: center;
+    gap: 531px;
+}
+
+.footer .copyright p{
+    width: 401px;
+    color: #FFFDFD;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.footer .isi{
+    width: 401px;
+    color: #FFFDFD;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.footer .logo{
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+

@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+*{
+    font-family:'Inter';
+}
+
+.login-box{
+    border-radius: 10px;
+}
+
+p, a, .form-label, .login-box .btn{
+    font-size: 14px;
+}
+
+.home p, .modal p, #btn-modal, .btn-success, .table{
+    font-size: 14px;
+}
+
+.login-box hr{
+    color: #B3ADAD;
+    width: 100%;
+    /* border-top: 1px solid#B3ADAD; */
+}
+
+.login-box .btn, .login-box .input-form{
+    width: 100%;
+    height: 40px;
+    border: 1px solid #b3adad70;
+    font-size:13px;
+}
+
+.required::after {
+    content: " *";
+    color: red;
+}
+
+#login-btn{
+    background-color:#2564AD ;
+    color: white;
+}
+
+.form-control:valid,
+.form-select:valid {
+    background-color: #f7f7f7;
+    /* height:35px; */
+    box-shadow: none;
+    border: 1px solid #DED9D9;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: none;
+}
+
+.table-container {
+    background-color: white;
+    border: 1px solid #ebe5e5;
+    border-radius: 3px;
+}
+
+.judul h1 {
+    font-size: 30px;
+    color: #73879C;
+    font-weight: 600;
+}
+
+.judul-tabel h6, .judul-tabel h5 {
+    font-weight: 600;
+    color: #73879C;
+}
+
+.home-content {
+    height: 100vh;
+    padding-left: 20vh;
+    padding-right: 10vh;
+    padding-top: 4vh;
+    /* background-color: #f7f7f7; */
+    background-color: white;
+}
+
+/* button */
+#btn-modal{
+    height:35px;
+    background-color: #2564AD;
+    border: #2564AD;
+}
+
+#btn-generate{
+    width: 100%;
+    background-color: #2564AD;
+    border: none;
+}
+
+/* tab transaksi */
+nav > .nav.nav-tabs{
+    border: none;
+    color:#fff;
+    background:#272e38;
+    border-radius:0;
+
+}
+
+.tab-content{
+    background-color: white;
+    line-height: 25px;
+    padding:30px 25px;
+    border-radius: 10px;
+    
+}
+
