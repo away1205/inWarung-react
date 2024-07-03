@@ -5,12 +5,12 @@ import toast from 'react-hot-toast';
 function useTambahBarang() {
   const queryClient = useQueryClient();
 
-  const { mutate: createCabin, isPending: isCreating } = useMutation({
+  const { mutate: tambahBarang, isPending: isCreating } = useMutation({
     mutationFn: createProduct,
     onSuccess: () => {
       toast.success('Barang baru telah ditambah');
       queryClient.invalidateQueries({
-        queryKey: ['barang'],
+        queryKey: ['product'],
       });
     },
 
@@ -19,7 +19,7 @@ function useTambahBarang() {
     },
   });
 
-  return { createCabin, isCreating };
+  return { tambahBarang, isCreating };
 }
 
 export default useTambahBarang;

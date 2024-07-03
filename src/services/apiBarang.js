@@ -1,4 +1,4 @@
-const baseUrl = 'http://127.0.0.1:5000/api/products/';
+const baseUrl = 'https://inwarungapi.azurewebsites.net/api/products/';
 
 // Function to get all products
 export async function getAllProducts() {

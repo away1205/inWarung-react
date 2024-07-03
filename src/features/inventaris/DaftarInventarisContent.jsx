@@ -1,13 +1,36 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
+import useTambahBarang from '../../hooks/useTambahBarang';
 
 function DaftarInventarisContent() {
   const [show, setShow] = useState(false);
 
+  const { register, handleSubmit, reset } = useForm();
+
+  const { tambahBarang, isCreating } = useTambahBarang();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  function onSubmit(data) {
+    const productData = {
+      product_name: 'MAqua',
+      id_category: 1,
+      retail_price: 10000,
+      wholesale_price: 12000,
+    };
+
+    tambahBarang(productData, {
+      onSuccess: () => {
+        handleClose();
+        reset();
+      },
+    });
+  }
+
   return (
     <div className='home-content py-3 h-100'>
       <Modal
@@ -20,21 +43,51 @@ function DaftarInventarisContent() {
           <Modal.Title>Tambah Barang</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Label htmlFor='namabarang'>Nama</Form.Label>
-          <Form.Control id='namabarang' />
-          <Form.Label htmlFor='kategoribarang'>Kategori</Form.Label>
-          <Form.Control id='kategoribarang' />
-          <Form.Label htmlFor='merkbarang'>Merk</Form.Label>
-          <Form.Control id='merkbarang' />
-          <Form.Label htmlFor='beratbarang'>Berat</Form.Label>
-          <Form.Control id='beratbarang' />
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Label htmlFor='product_name'>Nama</Form.Label>
+            <Form.Control
+              id='product_name'
+              {...register('product_name', {
+                required: 'Baris ini harus diisi',
+              })}
+              disabled={isCreating}
+            />
+            <Form.Label htmlFor='id_category'>Kategori</Form.Label>
+            <Form.Control
+              id='id_category'
+              {...register('id_category', {
+                required: 'Baris ini harus diisi',
+              })}
+              disabled={isCreating}
+            />
+            <Form.Label htmlFor='wholesale_Price'>Wholesale Price</Form.Label>
+            <Form.Control
+              id='wholesale_Price'
+              {...register('wholesale_price', {
+                required: 'Baris ini harus diisi',
+              })}
+              disabled={isCreating}
+            />
+            <Form.Label htmlFor='retail_price'>Retail Price</Form.Label>
+            <Form.Control
+              id='retail_price'
+              {...register('retail_price', {
+                required: 'Baris ini harus diisi',
+              })}
+              disabled={isCreating}
+            />
+
+            <Form.Group className='d-flex mt-4 gap-2 justify-content-end'>
+              <Button variant='secondary' onClick={handleClose}>
+                Batalkan
+              </Button>
+              <Button variant='primary' type='submit'>
+                Tambahkan
+              </Button>
+            </Form.Group>
+          </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
-            Batalkan
-          </Button>
-          <Button variant='primary'>Tambahkan</Button>
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </Modal>
 
       <div className='row mt-4'>
