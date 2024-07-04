@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './sidebar.css';
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,42 +20,44 @@ function Sidebar() {
       <ul className='nav-links'>
         <li className='item'>
           <div className=' iocn-link'>
-            <a href='transaksi.html'>
+            <Link to={'/transaksi'}>
               <img src='assets/stok-out.png' />
               <span className='link_name'>Transaksi Warung</span>
-            </a>
+            </Link>
           </div>
         </li>
         <li className='item'>
           <div className='iocn-link'>
-            <a href='home.html'>
+            <Link to={'/'}>
               <img src='assets/dashboard.png' />
               <span className='link_name'>Laporan Warung</span>
-            </a>
+            </Link>
           </div>
         </li>
         <li className='item'>
           <div className='iocn-link'>
-            <a href='daftar-inventaris.html'>
+            <Link to={'/inventaris'}>
               <img src='assets/shipping.png' />
               <span className='link_name'>Daftar Inventaris</span>
-            </a>
+            </Link>
           </div>
         </li>
         <li className='item'>
           <div className=' iocn-link'>
             <a href='rekomendasi.html'>
-              <img src='assets/restock.png' />
-              <span className='link_name'>Rekomendasi Restok</span>
+              <Link to={'/rekomendasi'}>
+                <img src='assets/restock.png' />
+                <span className='link_name'>Rekomendasi Restok</span>
+              </Link>
             </a>
           </div>
         </li>
         <li className='item'>
           <div className=' iocn-link'>
-            <a href='profil.html'>
+            <Link to={'/profil'}>
               <img src='assets/profile.png' />
               <span className='link_name'>Profil Saya</span>
-            </a>
+            </Link>
           </div>
         </li>
       </ul>
