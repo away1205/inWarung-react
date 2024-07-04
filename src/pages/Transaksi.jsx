@@ -1,12 +1,14 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
 import Sidebar from '../ui/Sidebar';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Form from 'react-bootstrap/Form';
 import TabelTransaksi from '../features/transaksi/TabelTransaksi';
 import Button from 'react-bootstrap/esm/Button';
 import useBarang from '../hooks/useBarang';
-import { useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import { useForm } from 'react-hook-form';
+import AudioRecorder from '../features/transaksi/Recorder';
 
 function Transaksi() {
   const { barang, isPending, error } = useBarang();
@@ -81,52 +83,10 @@ function Transaksi() {
                           Daftar Barang dalam Transaksi di bawah ini.
                         </p>
                       </div>
+
                       <div className='col-3 d-flex align-items-center'>
                         <div className='row '>
-                          <div className='col-4 text-right'>
-                            <button
-                              type='button'
-                              className='btn btn-primary px-0'
-                              style={{
-                                backgroundColor: 'transparent',
-                                color: 'gray',
-                                border: 'none',
-                              }}
-                              id='recordButton'
-                            >
-                              <img
-                                src='assets/voice.png'
-                                style={{ height: '60px' }}
-                              />
-                            </button>
-                          </div>
-                          <div className='col-4 text-right d-flex align-items-center'>
-                            <h6>
-                              Time: <span id='timer'>00:00</span>
-                            </h6>
-                          </div>
-                          <div className='col-4 text-right'>
-                            <button
-                              type='button'
-                              className='btn btn-primary px-0'
-                              style={{
-                                backgroundColor: 'transparent',
-                                color: 'gray',
-                                border: 'none',
-                              }}
-                              id='stopButton'
-                            >
-                              <img
-                                src='assets/stop.png'
-                                style={{ height: '60px' }}
-                              />
-                            </button>
-                          </div>
-                          <audio
-                            id='audioPlayback'
-                            controls
-                            style={{ display: 'none' }}
-                          ></audio>
+                          <AudioRecorder />
                         </div>
                       </div>
                     </div>
