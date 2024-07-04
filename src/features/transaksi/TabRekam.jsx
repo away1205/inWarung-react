@@ -1,4 +1,5 @@
 import AudioRecorder from './Recorder';
+import { RecorderRealTime } from './RecorderRealTime';
 
 function TabRekam() {
   return (
@@ -37,6 +38,7 @@ function TabRekam() {
           <div className='col-3 d-flex align-items-center'>
             <div className='row'>
               <AudioRecorder />
+              {/* <RecorderRealTime /> */}
             </div>
           </div>
         </div>

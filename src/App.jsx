@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import DaftarInventaris from './pages/DaftarInventaris';
 import { Toaster } from 'react-hot-toast';
 import Transaksi from './pages/Transaksi';
+import AppLayout from './ui/AppLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,8 +23,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<h1>HomePage</h1>} />
-          <Route path='inventaris' element={<DaftarInventaris />} />
-          <Route path='transaksi' element={<Transaksi />} />
+
+          <Route element={<AppLayout />}>
+            <Route path='inventaris' element={<DaftarInventaris />} />
+            <Route path='transaksi' element={<Transaksi />} />
+          </Route>
         </Routes>
       </BrowserRouter>
 

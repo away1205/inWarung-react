@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import Sidebar from '../ui/Sidebar';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Form from 'react-bootstrap/Form';
@@ -31,8 +30,6 @@ function Transaksi() {
   }
   return (
     <div>
-      <Sidebar />
-
       <div className='home-content py-3 h-100'>
         <div className='row mt-4'>
           <div className='judul col-9'>
