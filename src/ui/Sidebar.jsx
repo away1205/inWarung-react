@@ -28,7 +28,7 @@ function Sidebar() {
         </li>
         <li className='item'>
           <div className='iocn-link'>
-            <Link to={'/'}>
+            <Link to={'/dashboard'}>
               <img src='assets/dashboard.png' />
               <span className='link_name'>Laporan Warung</span>
             </Link>

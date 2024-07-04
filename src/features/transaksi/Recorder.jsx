@@ -9,16 +9,8 @@ import { IconMicrophone, IconRectangleFilled } from '@tabler/icons-react';
 import Button from 'react-bootstrap/esm/Button';
 import { convertToWavAndResample } from '../../utils/convertToWavAndResample';
 
-const saveAudio = (blob) => {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  document.body.appendChild(a);
-  a.style = 'display: none';
-  a.href = url;
-  a.download = 'recorded_audio.wav';
-  a.click();
-  window.URL.revokeObjectURL(url);
-};
+const subscriptionKey = 'ace0d72666fc4b7f8b140906416ae451';
+const serviceRegion = 'southeastasia';
 
 const AudioRecorder = () => {
   const [recording, setRecording] = useState(false);
@@ -27,6 +19,17 @@ const AudioRecorder = () => {
   const audioChunks = useRef([]);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const intervalRef = useRef(null);
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    transcribeAudio(file);
+    console.log(file);
+  };
 
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -36,10 +39,15 @@ const AudioRecorder = () => {
     };
     mediaRecorderRef.current.onstop = async () => {
       const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
+      const audioFile = new File([audioBlob], 'recorded_audio.wav', {
+        type: 'audio/wav',
+      });
+      console.log(audioFile);
+
       const wavBlob = await convertToWavAndResample(audioBlob, 16000);
       setAudioURL(URL.createObjectURL(wavBlob));
 
-      transcribeAudio(audioBlob);
+      transcribeAudio(audioFile);
 
       // saveAudio(wavBlob);
     };
@@ -59,9 +67,6 @@ const AudioRecorder = () => {
   };
 
   const transcribeAudio = async (audioBlob) => {
-    const subscriptionKey = 'ace0d72666fc4b7f8b140906416ae451';
-    const serviceRegion = 'southeastasia';
-
     const speechConfig = SpeechConfig.fromSubscription(
       subscriptionKey,
       serviceRegion
@@ -108,8 +113,24 @@ const AudioRecorder = () => {
           )}
         </Button>
       </div>
+
+      <form onSubmit={handleSubmit}>
+        <input type='file' accept='.wav' onChange={handleFileChange} />
+        <button type='submit'>Upload and Process</button>
+      </form>
     </div>
   );
+};
+
+const saveAudio = (blob) => {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  document.body.appendChild(a);
+  a.style = 'display: none';
+  a.href = url;
+  a.download = 'recorded_audio.wav';
+  a.click();
+  window.URL.revokeObjectURL(url);
 };
 
 export default AudioRecorder;
