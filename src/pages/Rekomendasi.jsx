@@ -1,5 +1,5 @@
 function Rekomendasi() {
-  return <div>{/* Your component content here */}</div>;
+  return <div></div>;
 }
 
 export default Rekomendasi;

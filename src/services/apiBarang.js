@@ -1,4 +1,6 @@
-const baseUrl = 'https://inwarungapi.azurewebsites.net/api/products/';
+const baseUrl = `${import.meta.env.VITE_DATABASE_URI}/api/products/`;
+
+console.log(baseUrl);
 
 // Function to get all products
 export async function getAllProducts() {

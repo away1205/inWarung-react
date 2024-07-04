@@ -60,21 +60,32 @@ function DaftarInventarisContent() {
               })}
               disabled={isCreating}
             />
-            <Form.Label htmlFor='wholesale_Price'>Wholesale Price</Form.Label>
+            <Form.Label htmlFor='wholesale_Price'>Harga grosir</Form.Label>
             <Form.Control
               id='wholesale_Price'
               {...register('wholesale_price', {
                 required: 'Baris ini harus diisi',
               })}
               disabled={isCreating}
+              type='number'
             />
-            <Form.Label htmlFor='retail_price'>Retail Price</Form.Label>
+            <Form.Label htmlFor='retail_price'>Harga retail</Form.Label>
             <Form.Control
               id='retail_price'
               {...register('retail_price', {
                 required: 'Baris ini harus diisi',
               })}
               disabled={isCreating}
+              type='number'
+            />
+            <Form.Label htmlFor='current_stock'>Stock Sekarang</Form.Label>
+            <Form.Control
+              id='retail_price'
+              {...register('retail_price', {
+                required: 'Baris ini harus diisi',
+              })}
+              disabled={isCreating}
+              type='number'
             />
 
             <Form.Group className='d-flex mt-4 gap-2 justify-content-end'>
@@ -102,7 +113,7 @@ function DaftarInventarisContent() {
             id='btn-modal'
             onClick={handleShow}
           >
-            Tambah Data
+            Tambah Barang
           </button>
         </div>
       </div>
