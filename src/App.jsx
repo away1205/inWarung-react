@@ -9,6 +9,7 @@ import AppLayout from './ui/AppLayout';
 import Rekomendasi from './pages/Rekomendasi';
 import Dashboard from './pages/Dashboard';
 import Profil from './pages/Profil';
+import DetailBarang from './pages/DetailBarang';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,7 @@ function App() {
 
           <Route element={<AppLayout />}>
             <Route path='inventaris' element={<DaftarInventaris />} />
+            <Route path='inventaris/:id_product' element={<DetailBarang />} />
             <Route path='transaksi' element={<Transaksi />} />
             <Route path='profil' element={<Profil />} />
             <Route path='rekomendasi' element={<Rekomendasi />} />

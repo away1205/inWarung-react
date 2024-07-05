@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAllProducts } from '../services/apiBarang';
+import { getAllProducts, getSpecificProduct } from '../services/apiBarang';
 
-function useBarang() {
+function useBarang(id) {
   const {
     isPending,
     data: barang,
     error,
   } = useQuery({
     queryKey: ['products'],
-    queryFn: getAllProducts,
+    queryFn: id ? () => getSpecificProduct(id) : getAllProducts,
   });
 
   return { barang, isPending, error };

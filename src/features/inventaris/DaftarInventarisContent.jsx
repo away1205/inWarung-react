@@ -5,6 +5,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 import useTambahBarang from '../../hooks/useTambahBarang';
+import useKategori from '../../hooks/useKategori';
+import DaftarBarang from './DaftarBarang';
 
 function DaftarInventarisContent() {
   const [show, setShow] = useState(false);
@@ -12,23 +14,26 @@ function DaftarInventarisContent() {
   const { register, handleSubmit, reset } = useForm();
 
   const { tambahBarang, isCreating } = useTambahBarang();
+  const { kategori, isPending } = useKategori();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   function onSubmit(data) {
-    const productData = {
-      product_name: 'MAqua',
-      id_category: 1,
-      retail_price: 10000,
-      wholesale_price: 12000,
-    };
+    // const productData = {
+    //   product_name: 'MAqua',
+    //   id_category: 1,
+    //   retail_price: 10000,
+    //   wholesale_price: 12000,
+    // };
 
-    tambahBarang(productData, {
-      onSuccess: () => {
-        handleClose();
-        reset();
-      },
-    });
+    console.log(data);
+
+    // tambahBarang(productData, {
+    //   onSuccess: () => {
+    //     handleClose();
+    //     reset();
+    //   },
+    // });
   }
 
   return (
@@ -53,13 +58,23 @@ function DaftarInventarisContent() {
               disabled={isCreating}
             />
             <Form.Label htmlFor='id_category'>Kategori</Form.Label>
-            <Form.Control
+            <Form.Select
               id='id_category'
               {...register('id_category', {
                 required: 'Baris ini harus diisi',
               })}
-              disabled={isCreating}
-            />
+              disabled={isCreating || isPending}
+              aria-label='Pilih kategori'
+            >
+              <option>Pilih kategori barang</option>
+              {kategori?.map((item) => {
+                return (
+                  <option value={item.id_category} key={item.id_category}>
+                    {item?.category_name}
+                  </option>
+                );
+              })}
+            </Form.Select>
             <Form.Label htmlFor='wholesale_Price'>Harga grosir</Form.Label>
             <Form.Control
               id='wholesale_Price'
@@ -81,7 +96,7 @@ function DaftarInventarisContent() {
             <Form.Label htmlFor='current_stock'>Stock Sekarang</Form.Label>
             <Form.Control
               id='retail_price'
-              {...register('retail_price', {
+              {...register('current_stock', {
                 required: 'Baris ini harus diisi',
               })}
               disabled={isCreating}
@@ -112,57 +127,14 @@ function DaftarInventarisContent() {
             className='btn btn-primary'
             id='btn-modal'
             onClick={handleShow}
+            disabled={isPending && true}
           >
             Tambah Barang
           </button>
         </div>
       </div>
 
-      {/* <div className='table-container p-5 mt-3 shadow-sm'>
-        <table id='tabelBarang' className='table' style={{ width: '100%' }}>
-          <tbody>
-            <tr>
-              <td></td>
-              <div className='row actions'>
-                <div className='search-btn col px-0'>
-                  <a href='detail-barang.html'>
-                    <button
-                      type='button'
-                      className='btn btn-primary px-0'
-                      data-toggle='modal'
-                      data-target='#editModal'
-                      style={{
-                        backgroundColor: 'transparent',
-                        color: 'gray',
-                        border: 'none',
-                      }}
-                    >
-                      <i className='bi bi-search'></i>
-                    </button>
-                  </a>
-                </div>
-                <div className='del-btn col px-0'>
-                  <button
-                    type='button'
-                    className='btn btn-primary px-0'
-                    data-toggle='modal'
-                    data-target='#deleteModal'
-                    style={{
-                      backgroundColor: 'transparent',
-                      color: 'gray',
-                      border: 'none',
-                    }}
-                    id='buttonHapus'
-                    data-id='{{row[1]}}'
-                  >
-                    <img src='assets/del.png' style={{ height: '20px' }} />
-                  </button>
-                </div>
-              </div>
-            </tr>
-          </tbody>
-        </table>
-      </div> */}
+      <DaftarBarang />
     </div>
   );
 }

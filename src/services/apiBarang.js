@@ -1,11 +1,18 @@
 const baseUrl = `${import.meta.env.VITE_DATABASE_URI}/api/products/`;
 
-console.log(baseUrl);
-
 // Function to get all products
 export async function getAllProducts() {
   try {
     const response = await fetch(baseUrl);
+    const products = await response.json();
+    return products;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+}
+export async function getSpecificProduct(id) {
+  try {
+    const response = await fetch(baseUrl + id);
     const products = await response.json();
     return products;
   } catch (error) {
