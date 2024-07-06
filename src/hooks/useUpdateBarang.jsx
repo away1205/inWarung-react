@@ -8,9 +8,9 @@ function useUpdateBarang() {
   const { mutate: updateBarang, isPending: isUpdating } = useMutation({
     mutationFn: ({ id, data }) => updateProduct(id, data),
     onSuccess: () => {
-      toast.success('Barang baru telah ditambah');
+      toast.success('Barang telah diupdate');
       queryClient.invalidateQueries({
-        queryKey: ['products'],
+        queryKey: ['specific_product'],
       });
     },
 

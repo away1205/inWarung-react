@@ -8,6 +8,7 @@ export async function getAllProducts() {
     return products;
   } catch (error) {
     console.error('Error fetching products:', error);
+    return error;
   }
 }
 export async function getSpecificProduct(id) {
@@ -34,6 +35,7 @@ export async function createProduct(product) {
     console.log('Product created:', newProduct);
   } catch (error) {
     console.error('Error creating product:', error);
+    return error;
   }
 }
 
@@ -49,6 +51,7 @@ export async function updateProduct(id, product) {
     });
     const updatedProduct = await response.json();
     console.log('Product updated:', updatedProduct);
+    return updatedProduct;
   } catch (error) {
     console.error('Error updating product:', error);
   }
@@ -61,8 +64,14 @@ export async function deleteProduct(id) {
       method: 'DELETE',
     });
     const result = await response.json();
-    console.log('Product deleted:', result);
-  } catch (error) {
-    console.error('Error deleting product:', error);
+
+    if (result.message) {
+      console.error(result.message);
+      throw new Error(result.message);
+    }
+
+    return null;
+  } catch (err) {
+    console.error(err);
   }
 }

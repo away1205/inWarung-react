@@ -19,21 +19,14 @@ function DaftarInventarisContent() {
   const handleShow = () => setShow(true);
 
   function onSubmit(data) {
-    // const productData = {
-    //   product_name: 'MAqua',
-    //   id_category: 1,
-    //   retail_price: 10000,
-    //   wholesale_price: 12000,
-    // };
-
-    console.log(data);
-
-    // tambahBarang(productData, {
-    //   onSuccess: () => {
-    //     handleClose();
-    //     reset();
-    //   },
-    // });
+    const newBarang = { ...data, id_user: 'u_1' };
+    console.log(newBarang);
+    tambahBarang(newBarang, {
+      onSuccess: () => {
+        handleClose();
+        reset();
+      },
+    });
   }
 
   return (

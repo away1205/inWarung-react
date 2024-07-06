@@ -57,7 +57,7 @@ function DaftarBarang() {
                       }
                     >
                       <Button
-                        variant='success'
+                        variant='outline-primary'
                         onClick={() => navigate(`${item.id_product}`)}
                       >
                         <IconEdit />

@@ -7,7 +7,7 @@ function useSpecificBarang(id) {
     data: barang,
     error,
   } = useQuery({
-    queryKey: ['spesific_product'],
+    queryKey: ['specific_product'],
     queryFn: () => getSpecificProduct(id),
   });
 

@@ -43,21 +43,29 @@ function StokBarang() {
           <div className='col-12'>
             <Table hover striped>
               <thead>
-                <th>Tanggal Restok</th>
-                <th>Jumlah</th>
+                <tr>
+                  <th>Tanggal Restok</th>
+                  <th>Jumlah</th>
+                </tr>
               </thead>
               {isPending || isCreating ? (
                 <Spinner size='xl' />
               ) : (
                 <tbody>
-                  {stok.map((item) => {
-                    return (
-                      <tr key={item.id_restock}>
-                        <td>{formatDate(item.restock_date)}</td>
-                        <td>{item.qty_restock}</td>
-                      </tr>
-                    );
-                  })}
+                  {stok.length > 0 ? (
+                    stok?.map((item) => {
+                      return (
+                        <tr key={item.id_restock}>
+                          <td>{formatDate(item.restock_date)}</td>
+                          <td>{item.qty_restock}</td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr className='mt-2'>
+                      <td>Belum ada stok</td>
+                    </tr>
+                  )}
                 </tbody>
               )}
             </Table>
