@@ -1,19 +1,25 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   SpeechConfig,
   AudioConfig,
   SpeechRecognizer,
 } from 'microsoft-cognitiveservices-speech-sdk';
-
 import { IconMicrophone, IconRectangleFilled } from '@tabler/icons-react';
 import Button from 'react-bootstrap/esm/Button';
+
 import { convertToWavAndResample } from '../../utils/convertToWavAndResample';
-import harvardAudio from '../../../public/harvard.wav';
+import continousRecognition from './ContinousRecognition';
+import { formatDuration } from '../../utils/helpers';
 
 const subscriptionKey = 'ace0d72666fc4b7f8b140906416ae451';
 const serviceRegion = 'southeastasia';
 
-const AudioRecorder = ({ onListBarang, onTranscription }) => {
+const AudioRecorder = ({
+  onListBarang,
+  onTranscription,
+  transcription,
+  onTransactionGPT,
+}) => {
   const [recording, setRecording] = useState(false);
   const [audioURL, setAudioURL] = useState('');
   const [isInputHidden, setIsInputHidden] = useState(false);
@@ -24,19 +30,48 @@ const AudioRecorder = ({ onListBarang, onTranscription }) => {
   const fileInput = useRef(null);
   const [file, setFile] = useState(null);
 
-  console.log(isInputHidden);
+  const [recognizer, setRecognizer] = useState(null);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    console.log(file);
+  useEffect(() => {
+    const newRecognizer = continousRecognition(
+      subscriptionKey,
+      serviceRegion,
+      handleRecognition
+    );
+    setRecognizer(newRecognizer);
+
+    return () => {
+      if (newRecognizer) {
+        newRecognizer.stopContinuousRecognitionAsync(
+          () => {
+            console.log('Continuous Recognition Stopped');
+          },
+          (err) => {
+            console.error(err);
+          }
+        );
+      }
+    };
+  }, []);
+
+  const handleRecognition = (text) => {
+    onTranscription((prevTranscriptions) => [...prevTranscriptions, text]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    transcribeAudio(file);
-  };
+  // setRecognizer(newRecognizer);
+
+  // const handleFileChange = (e) => {
+  //   setFile(e.target.files[0]);
+  //   console.log(file);
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   transcribeAudio(file);
+  // };
 
   const startRecording = async () => {
+    onTranscription('');
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     mediaRecorderRef.current = new MediaRecorder(stream);
     mediaRecorderRef.current.ondataavailable = (event) => {
@@ -49,38 +84,34 @@ const AudioRecorder = ({ onListBarang, onTranscription }) => {
       const wavBlob = await convertToWavAndResample(audioBlob, 16000);
       const audioFile = new File([wavBlob], 'recorded_audio.wav', {
         type: 'audio/wav',
-      });
+      }); // You can refer to this if you want to make a file from an audio
 
       setAudioURL(URL.createObjectURL(wavBlob));
-      // const dataTransfer = new DataTransfer();
-      // dataTransfer.items.add(audioFile);
-      // fileInput.current.files = dataTransfer.files;
 
       // Prepare FormData
-      const formData = new FormData();
-      formData.append('file', file);
+      // const formData = new FormData();
+      // formData.append('file', file);
 
-      // POST request to API endpoint
-      fetch('https://awa-inwarungserver-ai.azurewebsites.net/receipt', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Network response was not ok.');
-        })
-        .then((data) => {
-          onListBarang((cur) => [...cur, ...data.order.details]);
-          onTranscription(data.transcription);
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(`Error uploading file: ${error.message}`);
-        });
+      // // POST request to API endpoint
+      // fetch('https://awa-inwarungserver-ai.azurewebsites.net/receipt', {
+      //   method: 'POST',
+      //   body: formData,
+      // })
+      //   .then((response) => {
+      //     if (response.ok) {
+      //       return response.json();
+      //     }
+      //     throw new Error('Network response was not ok.');
+      //   })
+      //   .then((data) => {
+      //     onListBarang((cur) => [...cur, ...data.order.details]);
+      //     onTranscription(data.transcription);
+      //     console.log(data);
+      //   })
+      //   .catch((error) => {
+      //     console.log(`Error uploading file: ${error.message}`);
+      //   });
 
-      // transcribeAudio(audioBlob);
       // saveAudio(wavBlob);
     };
     mediaRecorderRef.current.start();
@@ -90,6 +121,14 @@ const AudioRecorder = ({ onListBarang, onTranscription }) => {
     }, 1000);
 
     // transcribeAudio();
+    recognizer.startContinuousRecognitionAsync(
+      () => {
+        console.log('Continuous Recognition Started');
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
   };
 
   const stopRecording = () => {
@@ -98,6 +137,20 @@ const AudioRecorder = ({ onListBarang, onTranscription }) => {
     setRecordingDuration(0);
     setRecording(false);
     audioChunks.current = [];
+
+    recognizer.stopContinuousRecognitionAsync(
+      () => {
+        console.log('Continuous Recognition Stopped');
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+
+    onTransactionGPT(transcription, {
+      onSuccess: (data) =>
+        onListBarang((cur) => [...cur, ...data.order.details]),
+    });
   };
 
   const transcribeAudio = async (audioBlob) => {
@@ -107,26 +160,20 @@ const AudioRecorder = ({ onListBarang, onTranscription }) => {
     );
     speechConfig.speechRecognitionLanguage = 'id-ID';
 
-    const audioConfig = AudioConfig.fromWavFileInput(audioBlob);
-    // const audioConfig = AudioConfig.fromDefaultMicrophoneInput();
+    // const audioConfig = AudioConfig.fromWavFileInput(audioBlob);
+    const audioConfig = AudioConfig.fromDefaultMicrophoneInput();
     const recognizer = new SpeechRecognizer(speechConfig, audioConfig);
 
     recognizer.recognizeOnceAsync((result) => {
-      // console.log(result.text);
-      console.log(result);
+      console.log(result.text);
+      // console.log(result);
     });
-  };
-
-  const formatDuration = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
   return (
     <div className='d-grid gap-2'>
       <div>
-        <audio src={audioURL} controls style={{ width: '100%' }} />
+        <audio src={audioURL} controls />
       </div>
 
       <div className='d-grid'>
@@ -148,7 +195,7 @@ const AudioRecorder = ({ onListBarang, onTranscription }) => {
         </Button>
       </div>
 
-      <div
+      {/* <div
         // style={{ display: isInputHidden ? 'none' : 'inline' }}
         className={`${
           isInputHidden ? 'd-none' : 'd-flex'
@@ -166,7 +213,7 @@ const AudioRecorder = ({ onListBarang, onTranscription }) => {
         >
           Hide Input
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };

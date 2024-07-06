@@ -74,7 +74,7 @@ function UpdateBarang() {
               );
             })}
           </Form.Select>
-          <Form.Label htmlFor='current_stock'>Stock Sekarang</Form.Label>
+          {/* <Form.Label htmlFor='current_stock'>Stock Sekarang</Form.Label>
           <Form.Control
             id='retail_price'
             {...register('current_stock', {
@@ -83,7 +83,7 @@ function UpdateBarang() {
             })}
             disabled={!isEdit}
             type='number'
-          />
+          /> */}
 
           <div className='d-flex mt-4 gap-2 justify-content-end'>
             {isEdit ? (

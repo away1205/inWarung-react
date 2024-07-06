@@ -10,7 +10,6 @@ const tableHead = ['No', 'Nama', 'Harga', 'Kuantitas', 'Total'];
 function TabelTransaksi({
   listTransaksi = [],
   onListTransaksi,
-  transcription,
   onTranscription,
 }) {
   const [totalHarga, setTotalHarga] = useState(0);
@@ -120,16 +119,6 @@ function TabelTransaksi({
           </tr>
         </tfoot>
       </Table>
-
-      {transcription && (
-        <div
-          className='px-2 py-2 mb-4'
-          style={{ backgroundColor: '#DDDDD', borderRadius: '.5rem' }}
-        >
-          <span className='fw-bold'>Transkripsi:</span>
-          <p>{transcription} Testing</p>
-        </div>
-      )}
 
       <Button
         variant={isCreating ? 'primary' : 'outline-primary'}

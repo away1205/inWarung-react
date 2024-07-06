@@ -8,13 +8,21 @@ import Button from 'react-bootstrap/esm/Button';
 import TabelTransaksi from '../features/transaksi/TabelTransaksi';
 import useBarang from '../hooks/useBarang';
 import TabRekam from '../features/transaksi/TabRekam';
+import usePostTransactionGPT from '../hooks/usePostTransactionGPT';
+import AudioRecorder from '../features/transaksi/Recorder';
+import { Spinner } from 'react-bootstrap';
+import { useTransactionGPT } from '../hooks/useTransaction';
 
 function Transaksi() {
   const { barang, isPending } = useBarang();
   const [listBarang, setListBarang] = useState([]);
-  const [transcription, setTranscription] = useState('');
-
+  const [transcription, setTranscription] = useState([]);
   const { handleSubmit, register } = useForm();
+
+  const { postTransactionGPT, isPending: isPendingGPT } =
+    usePostTransactionGPT();
+
+  const { transaction } = useTransactionGPT();
 
   function handleAddTransaction(data) {
     const [selectedBarang] = barang.filter(
@@ -29,6 +37,7 @@ function Transaksi() {
       },
     ]);
   }
+
   return (
     <div>
       <div className='home-content py-3 h-100'>
@@ -44,10 +53,14 @@ function Transaksi() {
           <div className='col-12 mt-2 mb-2'>
             <Tabs>
               <Tab eventKey={'rekam'} title='Rekam Barang'>
-                <TabRekam
-                  onListBarang={setListBarang}
-                  onTranscription={setTranscription}
-                />
+                <TabRekam>
+                  <AudioRecorder
+                    onListBarang={setListBarang}
+                    onTranscription={setTranscription}
+                    onTransactionGPT={postTransactionGPT}
+                    transcription={transcription}
+                  />
+                </TabRekam>
               </Tab>
 
               <Tab eventKey={'pilih'} title='Pilih Barang'>
@@ -95,6 +108,20 @@ function Transaksi() {
               </Tab>
             </Tabs>
           </div>
+
+          {transcription.length > 0 && (
+            <div
+              className='mt-4 px-2 pt-2 pb-2'
+              style={{ borderRadius: '0.6rem', backgroundColor: '#fff' }}
+            >
+              <h6>Transkripsi :</h6>
+              <p>
+                {transcription?.map((item, i) => (
+                  <span key={i}>{item} </span>
+                ))}
+              </p>
+            </div>
+          )}
         </div>
 
         {listBarang.length >= 1 && (
@@ -105,6 +132,7 @@ function Transaksi() {
             onTranscription={setTranscription}
           />
         )}
+        {isPendingGPT && <Spinner size='xl' />}
       </div>
     </div>
   );
