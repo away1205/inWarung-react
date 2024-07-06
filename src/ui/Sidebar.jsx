@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './sidebar.css';
 import { Link } from 'react-router-dom';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,44 +21,78 @@ function Sidebar() {
       <ul className='nav-links'>
         <li className='item'>
           <div className=' iocn-link'>
-            <Link to={'/transaksi'}>
-              <img src='assets/stok-out.png' />
-              <span className='link_name'>Transaksi Warung</span>
-            </Link>
+            <OverlayTrigger
+              placement='right'
+              // delay={{ show: 250, hide: 250 }}
+              overlay={
+                <Tooltip id='button-tooltip-2'>Transaksi Warung</Tooltip>
+              }
+            >
+              <Link to={'/transaksi'}>
+                <img src='assets/stok-out.png' />
+                <span className='link_name'>Transaksi Warung</span>
+              </Link>
+            </OverlayTrigger>
           </div>
         </li>
         <li className='item'>
           <div className='iocn-link'>
-            <Link to={'/dashboard'}>
-              <img src='assets/dashboard.png' />
-              <span className='link_name'>Laporan Warung</span>
-            </Link>
+            <OverlayTrigger
+              placement='right'
+              // delay={{ show: 250, hide: 250 }}
+              overlay={<Tooltip id='button-tooltip-2'>Laporan Warung</Tooltip>}
+            >
+              <Link to={'/dashboard'}>
+                <img src='assets/dashboard.png' />
+                <span className='link_name'>Laporan Warung</span>
+              </Link>
+            </OverlayTrigger>
           </div>
         </li>
         <li className='item'>
           <div className='iocn-link'>
-            <Link to={'/inventaris'}>
-              <img src='assets/shipping.png' />
-              <span className='link_name'>Daftar Inventaris</span>
-            </Link>
+            <OverlayTrigger
+              placement='right'
+              // delay={{ show: 250, hide: 250 }}
+              overlay={
+                <Tooltip id='button-tooltip-2'>Daftar Inventaris</Tooltip>
+              }
+            >
+              <Link to={'/inventaris'}>
+                <img src='assets/shipping.png' />
+                <span className='link_name'>Daftar Inventaris</span>
+              </Link>
+            </OverlayTrigger>
           </div>
         </li>
         <li className='item'>
           <div className=' iocn-link'>
-            <a href='rekomendasi.html'>
+            <OverlayTrigger
+              placement='right'
+              // delay={{ show: 250, hide: 250 }}
+              overlay={
+                <Tooltip id='button-tooltip-2'>Rekomendasi Stok</Tooltip>
+              }
+            >
               <Link to={'/rekomendasi'}>
                 <img src='assets/restock.png' />
-                <span className='link_name'>Rekomendasi Restok</span>
+                <span className='link_name'>Rekomendasi Stok</span>
               </Link>
-            </a>
+            </OverlayTrigger>
           </div>
         </li>
         <li className='item'>
           <div className=' iocn-link'>
-            <Link to={'/profil'}>
-              <img src='assets/profile.png' />
-              <span className='link_name'>Profil Saya</span>
-            </Link>
+            <OverlayTrigger
+              placement='right'
+              // delay={{ show: 250, hide: 250 }}
+              overlay={<Tooltip id='button-tooltip-2'>Profil Saya</Tooltip>}
+            >
+              <Link to={'/profil'}>
+                <img src='assets/profile.png' />
+                <span className='link_name'>Profil Saya</span>
+              </Link>
+            </OverlayTrigger>
           </div>
         </li>
       </ul>

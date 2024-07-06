@@ -125,8 +125,8 @@ const AudioRecorder = ({ onListBarang, onTranscription }) => {
 
   return (
     <div className='d-grid gap-2'>
-      <div className=''>
-        <audio src={audioURL} controls />
+      <div>
+        <audio src={audioURL} controls style={{ width: '100%' }} />
       </div>
 
       <div className='d-grid'>

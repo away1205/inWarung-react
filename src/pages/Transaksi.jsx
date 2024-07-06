@@ -10,7 +10,7 @@ import useBarang from '../hooks/useBarang';
 import TabRekam from '../features/transaksi/TabRekam';
 
 function Transaksi() {
-  const { barang, isPending, error } = useBarang();
+  const { barang, isPending } = useBarang();
   const [listBarang, setListBarang] = useState([]);
   const [transcription, setTranscription] = useState('');
 
