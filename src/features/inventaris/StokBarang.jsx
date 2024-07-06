@@ -1,8 +1,31 @@
 import { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, Spinner, Table } from 'react-bootstrap';
+import useStok from '../../hooks/useStok';
+import { useParams } from 'react-router-dom';
+import { formatDate } from '../../utils/helpers';
+import useTambahStok from '../../hooks/useTambahStok';
+import { useForm } from 'react-hook-form';
 
 function StokBarang() {
   const [show, setShow] = useState(false);
+  const { id_product } = useParams();
+  const { stok, isPending } = useStok(id_product);
+  const { isCreating, tambahStok } = useTambahStok();
+  const { register, handleSubmit, reset } = useForm();
+
+  function onSubmit(data) {
+    const newStock = { ...data, id_product };
+    tambahStok(
+      newStock,
+
+      {
+        onSuccess: () => {
+          setShow(false);
+          reset();
+        },
+      }
+    );
+  }
   return (
     <>
       <div className='col-12 mt-5'>
@@ -18,14 +41,26 @@ function StokBarang() {
       <div className='col-12 mt-3'>
         <div className='row'>
           <div className='col-12'>
-            <table
-              id='tabelBarangPerPalet'
-              className='table'
-              style={{ width: '100%' }}
-            >
-              <thead></thead>
-              <tbody></tbody>
-            </table>
+            <Table hover striped>
+              <thead>
+                <th>Tanggal Restok</th>
+                <th>Jumlah</th>
+              </thead>
+              {isPending || isCreating ? (
+                <Spinner size='xl' />
+              ) : (
+                <tbody>
+                  {stok.map((item) => {
+                    return (
+                      <tr key={item.id_restock}>
+                        <td>{formatDate(item.restock_date)}</td>
+                        <td>{item.qty_restock}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              )}
+            </Table>
           </div>
         </div>
       </div>
@@ -40,9 +75,19 @@ function StokBarang() {
           <Modal.Title>Tambah Stok barang</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Label htmlFor=''>Jumlah Barang</Form.Label>
-            <Form.Control type='number' id='' />
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Label htmlFor='qty_restock'>Jumlah Barang</Form.Label>
+            <Form.Control
+              type='number'
+              id='qty_restock'
+              {...register('qty_restock', {
+                required: 'Baris ini harus diisi',
+              })}
+            />
+
+            <div className='mt-4 d-flex justify-content-end'>
+              <Button type='submit'>Tambah Stok</Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

@@ -1,4 +1,4 @@
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconEdit } from '@tabler/icons-react';
 import Button from 'react-bootstrap/esm/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';

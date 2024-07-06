@@ -1,18 +1,20 @@
 import { Button, Form, Spinner } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import useKategori from '../hooks/useKategori';
-import useBarang from '../hooks/useBarang';
+import useSpecificBarang from '../hooks/useSpecificBarang';
 import { useParams } from 'react-router-dom';
 import StokBarang from '../features/inventaris/StokBarang';
+import useUpdateBarang from '../hooks/useUpdateBarang';
 
 function DetailBarang() {
   const { register, handleSubmit } = useForm();
   const { kategori, isPending: isPendingKategori } = useKategori();
   const { id_product } = useParams();
-  const { barang, isPending: isPendingBarang } = useBarang(id_product);
+  const { barang, isPending: isPendingBarang } = useSpecificBarang(id_product);
+  const { updateBarang, isUpdating } = useUpdateBarang();
 
   function onUpdate(data) {
-    console.log(data);
+    updateBarang(id_product, data);
   }
 
   return (

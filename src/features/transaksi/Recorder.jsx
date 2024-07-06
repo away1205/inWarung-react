@@ -8,27 +8,32 @@ import {
 import { IconMicrophone, IconRectangleFilled } from '@tabler/icons-react';
 import Button from 'react-bootstrap/esm/Button';
 import { convertToWavAndResample } from '../../utils/convertToWavAndResample';
+import harvardAudio from '../../../public/harvard.wav';
 
 const subscriptionKey = 'ace0d72666fc4b7f8b140906416ae451';
 const serviceRegion = 'southeastasia';
 
-const AudioRecorder = () => {
+const AudioRecorder = ({ onListBarang, onTranscription }) => {
   const [recording, setRecording] = useState(false);
   const [audioURL, setAudioURL] = useState('');
+  const [isInputHidden, setIsInputHidden] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunks = useRef([]);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const intervalRef = useRef(null);
+  const fileInput = useRef(null);
   const [file, setFile] = useState(null);
+
+  console.log(isInputHidden);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+    console.log(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     transcribeAudio(file);
-    console.log(file);
   };
 
   const startRecording = async () => {
@@ -38,17 +43,44 @@ const AudioRecorder = () => {
       audioChunks.current.push(event.data);
     };
     mediaRecorderRef.current.onstop = async () => {
-      const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
-      const audioFile = new File([audioBlob], 'recorded_audio.wav', {
+      const audioBlob = new Blob(audioChunks.current, {
+        type: 'audio/wav; codecs=opus',
+      });
+      const wavBlob = await convertToWavAndResample(audioBlob, 16000);
+      const audioFile = new File([wavBlob], 'recorded_audio.wav', {
         type: 'audio/wav',
       });
-      console.log(audioFile);
 
-      const wavBlob = await convertToWavAndResample(audioBlob, 16000);
       setAudioURL(URL.createObjectURL(wavBlob));
+      // const dataTransfer = new DataTransfer();
+      // dataTransfer.items.add(audioFile);
+      // fileInput.current.files = dataTransfer.files;
 
-      transcribeAudio(audioFile);
+      // Prepare FormData
+      const formData = new FormData();
+      formData.append('file', file);
 
+      // POST request to API endpoint
+      fetch('https://awa-inwarungserver-ai.azurewebsites.net/receipt', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Network response was not ok.');
+        })
+        .then((data) => {
+          onListBarang((cur) => [...cur, ...data.order.details]);
+          onTranscription(data.transcription);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(`Error uploading file: ${error.message}`);
+        });
+
+      // transcribeAudio(audioBlob);
       // saveAudio(wavBlob);
     };
     mediaRecorderRef.current.start();
@@ -56,6 +88,8 @@ const AudioRecorder = () => {
     intervalRef.current = setInterval(() => {
       setRecordingDuration((prevDuration) => prevDuration + 1);
     }, 1000);
+
+    // transcribeAudio();
   };
 
   const stopRecording = () => {
@@ -78,7 +112,7 @@ const AudioRecorder = () => {
     const recognizer = new SpeechRecognizer(speechConfig, audioConfig);
 
     recognizer.recognizeOnceAsync((result) => {
-      console.log(result.text);
+      // console.log(result.text);
       console.log(result);
     });
   };
@@ -91,7 +125,7 @@ const AudioRecorder = () => {
 
   return (
     <div className='d-grid gap-2'>
-      <div className='d-grid'>
+      <div className=''>
         <audio src={audioURL} controls />
       </div>
 
@@ -114,10 +148,25 @@ const AudioRecorder = () => {
         </Button>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <input type='file' accept='.wav' onChange={handleFileChange} />
-        <button type='submit'>Upload and Process</button>
-      </form>
+      <div
+        // style={{ display: isInputHidden ? 'none' : 'inline' }}
+        className={`${
+          isInputHidden ? 'd-none' : 'd-flex'
+        } flex-column gap-2 mt-4`}
+      >
+        <input
+          type='file'
+          accept='.wav'
+          onChange={handleFileChange}
+          ref={fileInput}
+        />
+        <Button
+          variant={'outline-secondary'}
+          onClick={() => setIsInputHidden((cur) => !cur)}
+        >
+          Hide Input
+        </Button>
+      </div>
     </div>
   );
 };

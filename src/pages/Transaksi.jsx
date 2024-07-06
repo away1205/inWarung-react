@@ -12,12 +12,13 @@ import TabRekam from '../features/transaksi/TabRekam';
 function Transaksi() {
   const { barang, isPending, error } = useBarang();
   const [listBarang, setListBarang] = useState([]);
+  const [transcription, setTranscription] = useState('');
 
   const { handleSubmit, register } = useForm();
 
   function handleAddTransaction(data) {
     const [selectedBarang] = barang.filter(
-      (item) => item.id_product === Number(data.id_product)
+      (item) => item.id_product == data.id_product
     );
 
     setListBarang((cur) => [
@@ -43,7 +44,10 @@ function Transaksi() {
           <div className='col-12 mt-2 mb-2'>
             <Tabs>
               <Tab eventKey={'rekam'} title='Rekam Barang'>
-                <TabRekam />
+                <TabRekam
+                  onListBarang={setListBarang}
+                  onTranscription={setTranscription}
+                />
               </Tab>
 
               <Tab eventKey={'pilih'} title='Pilih Barang'>
@@ -67,6 +71,7 @@ function Transaksi() {
                                   required: 'Baris ini harus diisi',
                                 })}
                               >
+                                <option value=''>Pilih barang</option>
                                 {barang?.map((item) => {
                                   return (
                                     <option
@@ -92,10 +97,12 @@ function Transaksi() {
           </div>
         </div>
 
-        {listBarang.length > 1 && (
+        {listBarang.length >= 1 && (
           <TabelTransaksi
             listTransaksi={listBarang}
             onListTransaksi={setListBarang}
+            transcription={transcription}
+            onTranscription={setTranscription}
           />
         )}
       </div>

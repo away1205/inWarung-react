@@ -1,16 +1,11 @@
 import AudioRecorder from './Recorder';
 import { RecorderRealTime } from './RecorderRealTime';
 
-function TabRekam() {
+function TabRekam({ onListBarang, onTranscription }) {
   return (
-    <div className='tab-content shadow-sm py-2 pt-3' id='kontenTabTransaksi'>
-      <div
-        className='tab-pane fade show active row'
-        id='home'
-        role='tabpanel'
-        aria-labelledby='home-tab'
-      >
-        <div className='row'>
+    <div className='shadow-sm py-2 pt-3' id='kontenTabTransaksi'>
+      <div className='row' id='home' role='tabpanel' aria-labelledby='home-tab'>
+        <div className='row' style={{ paddingRight: '8rem' }}>
           <div className='col-9'>
             <p style={{ fontSize: '13px', color: 'grey' }}>
               Petunjuk penggunaan : <br />
@@ -37,7 +32,10 @@ function TabRekam() {
 
           <div className='col-3 d-flex align-items-center'>
             <div className='row'>
-              <AudioRecorder />
+              <AudioRecorder
+                onListBarang={onListBarang}
+                onTranscription={onTranscription}
+              />
               {/* <RecorderRealTime /> */}
             </div>
           </div>
