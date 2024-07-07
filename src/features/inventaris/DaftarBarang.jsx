@@ -10,7 +10,7 @@ import useKategori from '../../hooks/useKategori';
 import { useNavigate } from 'react-router-dom';
 
 function DaftarBarang() {
-  const { barang, isPending: isPendingBarang } = useBarang();
+  const { barang, isPending: isPendingBarang, error } = useBarang();
   const { kategori, isPending: isPendingKategori } = useKategori();
   const navigate = useNavigate();
 
@@ -32,47 +32,51 @@ function DaftarBarang() {
             </tr>
           </thead>
           <tbody>
-            {barang?.map((item, i) => {
-              return (
-                <tr key={item.id_product}>
-                  <td>{i + 1}</td>
-                  <td>{item.product_name}</td>
-                  <td>
-                    {
-                      kategori.find((k) => k.id_category === item.id_category)
-                        ?.category_name
-                    }
-                  </td>
-                  <td>{formatCurrency(item.wholesale_price)}</td>
-                  <td>{formatCurrency(item.retail_price)}</td>
-                  <td>{item.current_stock}</td>
-                  <td className='d-flex gap-2'>
-                    <OverlayTrigger
-                      placement='right'
-                      // delay={{ show: 250, hide: 250 }}
-                      overlay={
-                        <Tooltip id='button-tooltip-2'>
-                          Edit {item.product_name}
-                        </Tooltip>
+            {error ? (
+              <tr className='mt-4'>Gagal mendapatkan data</tr>
+            ) : (
+              barang?.map((item, i) => {
+                return (
+                  <tr key={item.id_product}>
+                    <td>{i + 1}</td>
+                    <td>{item.product_name}</td>
+                    <td>
+                      {
+                        kategori.find((k) => k.id_category === item.id_category)
+                          ?.category_name
                       }
-                    >
-                      <Button
-                        variant='outline-primary'
-                        onClick={() => navigate(`${item.id_product}`)}
+                    </td>
+                    <td>{formatCurrency(item.wholesale_price)}</td>
+                    <td>{formatCurrency(item.retail_price)}</td>
+                    <td>{item.current_stock}</td>
+                    <td className='d-flex gap-2'>
+                      <OverlayTrigger
+                        placement='right'
+                        // delay={{ show: 250, hide: 250 }}
+                        overlay={
+                          <Tooltip id='button-tooltip-2'>
+                            Edit {item.product_name}
+                          </Tooltip>
+                        }
                       >
-                        <IconEdit />
-                      </Button>
-                    </OverlayTrigger>
-                    {/* <Button
+                        <Button
+                          variant='outline-primary'
+                          onClick={() => navigate(`${item.id_product}`)}
+                        >
+                          <IconEdit />
+                        </Button>
+                      </OverlayTrigger>
+                      {/* <Button
                       variant='danger'
                       onClick={() => handleDeleteBarang(item.id_product)}
                     >
                       <IconTrash />
                     </Button> */}
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       )}

@@ -8,7 +8,7 @@ export async function getAllProducts() {
     return products;
   } catch (error) {
     console.error('Error fetching products:', error);
-    return error;
+    throw new Error('Silahkan periksa koneksi anda');
   }
 }
 export async function getSpecificProduct(id) {
