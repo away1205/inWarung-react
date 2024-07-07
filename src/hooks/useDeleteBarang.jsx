@@ -10,7 +10,7 @@ function useDeleteBarang() {
     onSuccess: () => {
       toast.success('Barang telah dihapus');
       queryClient.invalidateQueries({
-        queryKey: ['specific_product'],
+        queryKey: ['products'],
       });
     },
 

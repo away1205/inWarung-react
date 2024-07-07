@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import useStok from '../../hooks/useStok';
 import { useParams } from 'react-router-dom';
@@ -64,6 +64,7 @@ function StokBarang() {
                   ) : (
                     <tr className='mt-2'>
                       <td>Belum ada stok</td>
+                      <td></td>
                     </tr>
                   )}
                 </tbody>
