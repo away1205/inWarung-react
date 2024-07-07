@@ -6,7 +6,7 @@ import TabelTransaksi from '../features/transaksi/TabelTransaksi';
 import useBarang from '../hooks/useBarang';
 import LineChart from '../features/rekomendasi/LineChart';
 import { MultiSelect } from 'react-multi-select-component';
-import { ButtonGroup } from 'react-bootstrap';
+import { ButtonGroup, Spinner } from 'react-bootstrap';
 import useForecastStock from '../hooks/useForecastStock';
 import TableRekomendasi from '../features/rekomendasi/TableRekomendasi';
 
@@ -143,17 +143,23 @@ function Rekomendasi() {
       >
         <h5>Hasil Rekomendasi</h5>
 
-        <div className='col-12 mb-2'>
-          <div className='form-group'>
-            <div className='row'>
-              {resultForecast === undefined ? (
-                'Prediksi stok terlebih dahulu untuk melihat hasil rekomendasi'
-              ) : (
-                <TableRekomendasi resultForecast={resultForecast} />
-              )}
+        {isPendingForecast ? (
+          <div className='d-flex justify-content-center'>
+            <Spinner size='xl' />
+          </div>
+        ) : (
+          <div className='col-12 mb-2'>
+            <div className='form-group'>
+              <div className='row'>
+                {resultForecast === undefined ? (
+                  'Prediksi stok terlebih dahulu untuk melihat hasil rekomendasi'
+                ) : (
+                  <TableRekomendasi resultForecast={resultForecast} />
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
