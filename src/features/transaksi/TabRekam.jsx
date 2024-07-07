@@ -1,6 +1,3 @@
-import AudioRecorder from './Recorder';
-import { RecorderRealTime } from './RecorderRealTime';
-
 function TabRekam({ children }) {
   return (
     <div className='shadow-sm py-2 pt-3' id='kontenTabTransaksi'>

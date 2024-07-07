@@ -2,16 +2,14 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import TabelTransaksi from '../features/transaksi/TabelTransaksi';
 import useBarang from '../hooks/useBarang';
-import LineChart from '../features/rekomendasi/LineChart';
 import { MultiSelect } from 'react-multi-select-component';
 import { ButtonGroup, Spinner } from 'react-bootstrap';
 import useForecastStock from '../hooks/useForecastStock';
 import TableRekomendasi from '../features/rekomendasi/TableRekomendasi';
 
 function Rekomendasi() {
-  const { barang, isPending: isPendingBarang, error } = useBarang();
+  const { barang, isPending: isPendingBarang } = useBarang();
   const [optionBarang, setOptionBarang] = useState([]);
   const [selectedBarang, setSelectedBarang] = useState([]);
   const { forecastStock, isPending: isPendingForecast } = useForecastStock();
@@ -131,9 +129,6 @@ function Rekomendasi() {
           </div>
         </div>
         {/* Grafik Sales */}
-        {/* <div id="embeddedPageContainer" style={{ width: '100%', height: '500px', border: '1px solid #ccc' }}>
-          <iframe src="https://www.example.com/embedded-page.html" title="Embedded Page"></iframe>
-        </div> */}
       </div>
       {/* hasil rekomendasi */}
 
@@ -145,19 +140,40 @@ function Rekomendasi() {
 
         {isPendingForecast ? (
           <div className='d-flex justify-content-center'>
-            <Spinner size='xl' />
+            <Spinner size='xl' className='my-4' />
           </div>
         ) : (
           <div className='col-12 mb-2'>
             <div className='form-group'>
               <div className='row'>
                 {resultForecast === undefined ? (
-                  'Prediksi stok terlebih dahulu untuk melihat hasil rekomendasi'
+                  <span>
+                    Prediksi stok terlebih dahulu untuk melihat hasil
+                    rekomendasi
+                  </span>
                 ) : (
                   <TableRekomendasi resultForecast={resultForecast} />
                 )}
               </div>
             </div>
+          </div>
+        )}
+
+        {resultForecast !== undefined && (
+          <div
+            id='embeddedPageContainer'
+            style={{ width: '100%', height: '100%', border: '1px solid #ccc' }}
+          >
+            {isPendingForecast ? null : (
+              <iframe
+                src={`https://awa-inwarungserver-ai.azurewebsites.net/download/${resultForecast.html}`}
+                title='Embedded Page'
+                width={'100%'}
+                height={'400rem'}
+                sandbox='allow-scripts'
+                className='mt-4'
+              ></iframe>
+            )}
           </div>
         )}
       </div>

@@ -11,8 +11,8 @@ import { convertToWavAndResample } from '../../utils/convertToWavAndResample';
 import continousRecognition from './ContinousRecognition';
 import { formatDuration } from '../../utils/helpers';
 
-const subscriptionKey = 'ace0d72666fc4b7f8b140906416ae451';
-const serviceRegion = 'southeastasia';
+const subscriptionKey = import.meta.env.VITE_SPEECH_KEY;
+const serviceRegion = import.meta.env.VITE_SPEECH_REGION;
 
 const AudioRecorder = ({
   onListBarang,

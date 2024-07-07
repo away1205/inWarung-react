@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import useStok from '../../hooks/useStok';
 import { useParams } from 'react-router-dom';

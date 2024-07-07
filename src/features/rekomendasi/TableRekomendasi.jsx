@@ -6,8 +6,6 @@ function TableRekomendasi(resultForecast = []) {
   const resTypeForecast = result.filter((item) => item.type === 'forecast');
   const summary = resultForecast.resultForecast.summary;
 
-  console.log(summary);
-
   return (
     <>
       {/* <Table striped border>
