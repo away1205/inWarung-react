@@ -132,7 +132,15 @@ function Transaksi() {
             onTranscription={setTranscription}
           />
         )}
-        {isPendingGPT && <Spinner size='xl' />}
+
+        {isPendingGPT && (
+          <div
+            className='d-flex justify-content-center'
+            style={{ marginTop: '3rem' }}
+          >
+            <Spinner size='xl' />
+          </div>
+        )}
       </div>
     </div>
   );
